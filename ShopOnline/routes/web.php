@@ -26,13 +26,18 @@ Route::prefix('admin')->middleware(['auth','isAdmin'])->group(function()
 {
     Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
 
-    /* Category Route */
-    // Show
-    Route::get('category', [App\Http\Controllers\Admin\CategoryController::class, 'index']);
+    /* Category Route  group*/
+    Route::controller(App\Http\Controllers\Admin\CategoryController::class)->group(function()
+    {
+        Route::get('/category', 'index');
+    
+        Route::get('/category/create', 'create');
 
-    //Create
-    Route::get('category/create', [App\Http\Controllers\Admin\CategoryController::class, 'create']);
+        Route::post('/category', 'store');
 
-    // Save
-    Route::post('category', [App\Http\Controllers\Admin\CategoryController::class, 'store']);
+        Route::get('/category/{category}/edit', 'edit');
+    });
+
+
+    // admin/category/'.$category->id.'/edit
 });
